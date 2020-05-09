@@ -14,7 +14,7 @@ fi
 echo >&2 "-- Creating $project_name files -------------------------------------"
 mkdir "${project_name}" 
 cd "${project_name}" || exit 1
-mkdir "${project_name}" "test"
+mkdir "${project_name}" "tests"
 touch "${project_name}/__init__.py"
 
 cat > setup.py <<EOF
@@ -27,7 +27,7 @@ setup(
 )
 EOF
 chmod +x setup.py
-touch test/.keep
+touch tests/.keep
 curl http://gitignore.io/api/python,visualstudiocode > .gitignore 
 
 echo >&2 "-- Installing ${project_name} and dependencies ----------------------"
