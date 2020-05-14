@@ -11,10 +11,12 @@ else
   project_name=$1
 fi
 
-echo >&2 "-- Creating $project_name files -------------------------------------"
 mkdir "${project_name}" 
 cd "${project_name}" || exit 1
-mkdir "${project_name}" "tests"
+
+echo >&2 "-- Creating $project_name files -------------------------------------"
+mkdir "${project_name}"
+curl http://gitignore.io/api/python,visualstudiocode > .gitignore 
 touch "${project_name}/__init__.py"
 
 cat > setup.py <<EOF
@@ -27,8 +29,11 @@ setup(
 )
 EOF
 chmod +x setup.py
-touch tests/.keep
-curl http://gitignore.io/api/python,visualstudiocode > .gitignore 
+
+echo >&2 "-- Creating $project_name test starter ------------------------------"
+mkdir tests
+echo 'import pytest' > "tests/conftest.py"
+echo 'import pytest' > "tests/test_${project_name}.py"
 
 echo >&2 "-- Installing ${project_name} and dependencies ----------------------"
 pipenv install -e .
